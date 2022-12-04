@@ -12,18 +12,33 @@ from datetime import datetime
 from collections import defaultdict
 
 
+# -----------
+#  PARAMETERS
+# -----------
+
+# path to where layers are stored
 inputFile = "source_layers.cfg"
+
+# path to where maprotation file is generated
 outputFile = "LayerRotation.cfg"
+
+# Number of layer to generate in the map rotation
+nb_layer_to_generate = 15 
+
+
+
+
+
+
+
 nb_layers = 0
 maps = set()
 layers_par_map = defaultdict(list)
 
 
-
-
-# -----------------------------------
-# OPEN LAYERS SOURCE FILE & LOAD THEM
-# -----------------------------------
+# ------------------------------------
+#  OPEN LAYERS SOURCE FILE & LOAD THEM
+# ------------------------------------
 try:
     fichier_layer = open(inputFile, 'r')
 except:
@@ -46,20 +61,20 @@ for ligne in fichier_layer.readlines():
 
 
 
-# ---------------------
-# GENERATE MAP ROTATION
-# ---------------------
+# ----------------------
+#  GENERATE MAP ROTATION
+# ----------------------
 
-maps_aleatoire = random.sample(maps, k = len(maps))
+maps_aleatoire = random.sample(maps, nb_layer_to_generate)
 
 layers_aleatoires = []
 for map in maps_aleatoire:
     layers_aleatoires.append(random.choice(layers_par_map[map]))
 
 
-# -------------------------------
-# CREATE/OVERIDE MAPROTATION FILE
-# -------------------------------
+# --------------------------------
+#  CREATE/OVERIDE MAPROTATION FILE
+# --------------------------------
 with open(outputFile,"w") as outputFile:
     outputFile.write("// Fichier genere aleatoirement par rotation_random.py le %s\n" % datetime.now().strftime('%d/%m/%Y a %H:%M'))
     outputFile.write("// ne pas modifier manuellement car il sera ecrase au prochain lancement\n")
